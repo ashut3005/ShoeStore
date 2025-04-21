@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+
+<h1>Your Cart</h1>
+
+<div id="cart-items-container">
+    <!-- Cart items will be inserted here by JavaScript -->
+</div>
+
+<!-- Total price -->
+<div id="total-price"></div>
+
+<script src="cart.js"></script>
+<script>
+// Get the cart from localStorage
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// Get the container to display cart items
+const cartItemsContainer = document.getElementById('cart-items-container');
+const totalPriceContainer = document.getElementById('total-price');
+
+// Function to display the cart items
+function displayCartItems() {
+    cartItemsContainer.innerHTML = ''; // Clear existing items
+
+    let totalPrice = 0;
+
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item');
+        itemElement.innerHTML = `
+            <div class="cart-item-image">
+                <img src="${'./images/pic2.png'}" alt="${item.name}">
+            </div>
+            <div class="cart-item-details">
+                <p class="item-name">${item.name}</p>
+                <div class="item-quantity">
+                    <label>Quantity:</label>
+                    <span>${item.quantity}</span>
+                </div>
+                <p class="item-price">Price: $${item.price}</p>
+                <p class="item-total">Total: $${(item.price * item.quantity).toFixed(2)}</p>
+            </div>
+        `;
+        cartItemsContainer.appendChild(itemElement);
+
+        totalPrice += item.price * item.quantity;
+    });
+
+    totalPriceContainer.innerHTML = `Total Price: $${totalPrice.toFixed(2)}`;
+}
+
+// Display the cart items
+displayCartItems();
+</script>
+
+</body>
+</html>
